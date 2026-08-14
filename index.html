@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rental Application</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #1f2937;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px 50px; }
+    .card {
+      background: #fff; border-radius: 14px; padding: 28px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.08);
+    }
+    .header { text-align: center; margin-bottom: 28px; }
+    .header h1 { margin: 0 0 8px; font-size: 30px; }
+    .header p { margin: 0; color: #6b7280; }
+    h2 { font-size: 19px; margin: 28px 0 14px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .full { grid-column: 1 / -1; }
+    label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
+    input, textarea, select {
+      width: 100%; padding: 12px; border: 1px solid #d1d5db;
+      border-radius: 8px; font-size: 15px;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    .fee {
+      margin: 24px 0; padding: 18px; border-radius: 10px;
+      background: #eef6ff; border: 1px solid #bfdbfe;
+    }
+    .fee strong { font-size: 22px; }
+    .legal {
+      background: #f9fafb; border: 1px solid #e5e7eb;
+      border-radius: 10px; padding: 16px; line-height: 1.55;
+      font-size: 14px;
+    }
+    .check { display: flex; gap: 10px; align-items: flex-start; margin: 14px 0; }
+    .check input { width: auto; margin-top: 4px; }
+    button {
+      width: 100%; padding: 14px; border: 0; border-radius: 9px;
+      background: #111827; color: white; font-size: 16px;
+      font-weight: 700; cursor: pointer;
+    }
+    button:hover { background: #000; }
+    .small { font-size: 12px; color: #6b7280; margin-top: 10px; text-align: center; }
+    @media (max-width: 620px) {
+      .grid { grid-template-columns: 1fr; }
+      .full { grid-column: auto; }
+      .card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="header">
+      <h1>Rental Application</h1>
+      <p>Please complete the application below.</p>
+    </div>
+
+    <form id="rentalForm" action="https://formspree.io/f/xnpazgpq" method="POST">
+      <input type="hidden" name="_subject" value="New Rental Application Submission">
+      <h2>Applicant Information</h2>
+      <div class="grid">
+        <div>
+          <label>First Name *</label>
+          <input name="first_name" required>
+        </div>
+        <div>
+          <label>Last Name *</label>
+          <input name="last_name" required>
+        </div>
+        <div>
+          <label>Email *</label>
+          <input type="email" name="email" required>
+        </div>
+        <div>
+          <label>Phone *</label>
+          <input type="tel" name="phone" required>
+        </div>
+        <div class="full">
+          <label>Current Address *</label>
+          <input name="current_address" required>
+        </div>
+        <div>
+          <label>Desired Move-In Date</label>
+          <input type="date" name="move_in_date">
+        </div>
+        <div>
+          <label>Number of Occupants</label>
+          <input type="number" name="occupants" min="1">
+        </div>
+      </div>
+
+      <h2>Employment & Income</h2>
+      <div class="grid">
+        <div>
+          <label>Employer</label>
+          <input name="employer">
+        </div>
+        <div>
+          <label>Monthly Income</label>
+          <input type="number" name="monthly_income" min="0" step="0.01">
+        </div>
+      </div>
+
+      <h2>Rental History</h2>
+      <div class="grid">
+        <div class="full">
+          <label>Current/Previous Landlord</label>
+          <input name="landlord">
+        </div>
+        <div class="full">
+          <label>Additional Information</label>
+          <textarea name="additional_info"></textarea>
+        </div>
+      </div>
+
+      <h2>Declaration</h2>
+      <div class="legal">
+        I declare that the information provided in this rental application is true and
+        complete to the best of my knowledge. I understand that the information may be
+        reviewed for the purpose of evaluating my rental application and that I may be
+        asked to provide supporting documentation.
+      </div>
+
+      <h2>Consent</h2>
+      <div class="legal">
+        I authorize the landlord/property manager and their authorized representatives
+        to verify the information provided in this application, including rental,
+        employment, and other information reasonably necessary to evaluate the
+        application, subject to applicable law.
+      </div>
+
+      <div class="check">
+        <input type="checkbox" id="agreeDeclaration" required>
+        <label for="agreeDeclaration">I have read and agree to the Declaration.</label>
+      </div>
+
+      <div class="check">
+        <input type="checkbox" id="agreeConsent" required>
+        <label for="agreeConsent">I have read and provide the Consent above.</label>
+      </div>
+
+      <div class="fee">
+        <div>Rental Application Fee</div>
+        <strong>$50.00</strong>
+        <p>Select your preferred payment method below. Do not enter passwords, PINs, security codes, or account login credentials.</p>
+      </div>
+
+      <h2>Payment Information</h2>
+      <div class="grid">
+        <div>
+          <label>Payment Method *</label>
+          <select name="payment_method" id="paymentMethod" required>
+            <option value="">Select a method</option>
+            <option value="Apple Pay">Apple Pay</option>
+            <option value="Chime">Chime</option>
+            <option value="Zelle">Zelle</option>
+          </select>
+        </div>
+        <div>
+          <label>Your Name on Payment *</label>
+          <input name="payer_name">
+        </div>
+        <div class="full">
+          <label>Payment Reference / Confirmation Number</label>
+          <input name="payment_reference" placeholder="Optional">
+        </div>
+      </div>
+
+      <div id="paymentInstructions" class="legal" style="display:none; margin-top:15px;"></div>
+
+      <button type="submit">Submit Rental Application</button>
+      <div class="small">Your application will record the selected payment method and any reference number you provide.</div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Formspree handles the form submission and notification email.
+  // The payment method is recorded as part of the application; no payment
+  // credentials, PINs, passwords, or security codes are requested.
+</script>
+</body>
+</html>
