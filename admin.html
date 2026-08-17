@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Next Home Realty - Admin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.1);
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      margin: 7px 0 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    textarea {
+      min-height: 100px;
+    }
+
+    button {
+      background: #111827;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    #dashboard {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Next Home Realty</h1>
+
+  <div id="login">
+    <h2>Private Dashboard Login</h2>
+
+    <input type="email" id="email" placeholder="Email address">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="login()">Log In</button>
+
+    <div id="loginMessage" class="message"></div>
+  </div>
+
+  <div id="dashboard">
+
+    <h2>Add New Property</h2>
+
+    <input id="title" placeholder="Property title">
+    <input id="price" placeholder="Price">
+    <input id="location" placeholder="Location">
+    <input id="bedrooms" placeholder="Bedrooms">
+    <input id="bathrooms" placeholder="Bathrooms">
+
+    <textarea id="description" placeholder="Property description"></textarea>
+
+    <input id="image_url" placeholder="Property image URL">
+
+    <input id="contact_phone" placeholder="Contact phone number">
+
+    <button onclick="addProperty()">Add Property</button>
+
+    <button onclick="logout()">Log Out</button>
+
+    <div id="message" class="message"></div>
+
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://nwohrchlobeuamkbeddn.supabase.co";
+
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_CnNpbSInnNuwkog-UiW6lg_rFXTr6Tk
+
+  const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  async function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+    if (error) {
+      document.getElementById("loginMessage").textContent = error.message;
+      return;
+    }
+
+    document.getElementById("login").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
+  }
+
+  async function addProperty() {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+      alert("Please log in first.");
+      return;
+    }
+
+    const property = {
+      title: document.getElementById("title").value,
+      price: document.getElementById("price").value,
+      location: document.getElementById("location").value,
+      bedrooms: document.getElementById("bedrooms").value,
+      bathrooms: document.getElementById("bathrooms").value,
+      description: document.getElementById("description").value,
+      image_url: document.getElementById("image_url").value,
+      contact_phone: document.getElementById("contact_phone").value,
+      status: "Available"
+    };
+
+    const { error } = await supabaseClient
+      .from("properties")
+      .insert([property]);
+
+    if (error) {
+      document.getElementById("message").textContent = error.message;
+      return;
+    }
+
+    document.getElementById("message").textContent =
+      "Property added successfully!";
+
+    document.getElementById("title").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("location").value = "";
+    document.getElementById("bedrooms").value = "";
+    document.getElementById("bathrooms").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("image_url").value = "";
+    document.getElementById("contact_phone").value = "";
+  }
+
+  async function logout() {
+    await supabaseClient.auth.signOut();
+
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("login").style.display = "block";
+  }
+</script>
+
+</body>
+  </html>
