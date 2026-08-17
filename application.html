@@ -152,20 +152,20 @@
   </div>
 
   <section class="selected-property">
-    <h3>Property Applying For</h3>
+  <h3>Property Applying For</h3>
 
-    <p>
-      <strong>1 Bedroom Apartment</strong>
-    </p>
+  <p>
+    <strong id="property-name">Loading property...</strong>
+  </p>
 
-    <p>
-      1201 W Girard Avenue, Philadelphia, PA 19123
-    </p>
+  <p id="property-address">
+    Loading address...
+  </p>
 
-    <p>
-      <strong>$850/month</strong>
-    </p>
-  </section>
+  <p>
+    <strong id="property-rent">Loading rent...</strong>
+  </p>
+</section>
 
   <form class="application-form">
 
@@ -325,6 +325,29 @@
   </p>
   <small>© 2026 Nextep Realty. All rights reserved.</small>
 </footer>
+<script>
+  const properties = {
+    "1-bedroom-apartment-1201-w-girard-avenue": {
+      name: "1 Bedroom Apartment",
+      address: "1201 W Girard Avenue, Philadelphia, PA 19123",
+      rent: "$850/month"
+    }
+  };
 
+  const params = new URLSearchParams(window.location.search);
+  const propertyId = params.get("property");
+  const property = properties[propertyId];
+
+  if (property) {
+    document.getElementById("property-name").textContent = property.name;
+    document.getElementById("property-address").textContent = property.address;
+    document.getElementById("property-rent").textContent = property.rent;
+  } else {
+    document.getElementById("property-name").textContent = "Property not specified";
+    document.getElementById("property-address").textContent =
+      "Please return to the available properties page and select a property.";
+    document.getElementById("property-rent").textContent = "";
+  }
+</script>
 </body>
 </html>
