@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nextep Realty Rental Application">
+  <title>Rental Application | Nextep Realty</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .application-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .application-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .selected-property {
+      background: #f3f6f9;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+
+    .application-form {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+    }
+
+    .form-section h3 {
+      margin-bottom: 15px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .form-group textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .fee-box {
+      background: #fff7e6;
+      border: 1px solid #f0c36d;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .consent-box {
+      background: #f8f8f8;
+      border-radius: 10px;
+      padding: 18px;
+      margin-top: 20px;
+    }
+
+    .consent-box label {
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .submit-application {
+      width: 100%;
+      padding: 15px;
+      border: 0;
+      border-radius: 8px;
+      background: #111827;
+      color: white;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 650px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.full {
+        grid-column: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">NR</div>
+    <div>
+      <h1>Nextep Realty</h1>
+      <p>Rental Application</p>
+    </div>
+  </div>
+
+  <a class="header-call" href="tel:+12232273065">
+    Call 223-227-3065
+  </a>
+</header>
+
+<main class="application-container">
+
+  <a class="back-link" href="index.html">
+    ← Back to Property
+  </a>
+
+  <div class="application-header">
+    <span class="eyebrow">NEXTEP REALTY</span>
+    <h2>Rental Application</h2>
+    <p>Please complete the application below.</p>
+  </div>
+
+  <section class="selected-property">
+    <h3>Property Applying For</h3>
+
+    <p>
+      <strong>1 Bedroom Apartment</strong>
+    </p>
+
+    <p>
+      1201 W Girard Avenue, Philadelphia, PA 19123
+    </p>
+
+    <p>
+      <strong>$850/month</strong>
+    </p>
+  </section>
+
+  <form class="application-form">
+
+    <div class="form-section">
+      <h3>Applicant Information</h3>
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label for="firstName">First Name *</label>
+          <input type="text" id="firstName" name="firstName" required>
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name *</label>
+          <input type="text" id="lastName" name="lastName" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+
+        <div class="form-group full">
+          <label for="currentAddress">Current Address *</label>
+          <input type="text" id="currentAddress" name="currentAddress" required>
+        </div>
+
+        <div class="form-group">
+          <label for="city">City *</label>
+          <input type="text" id="city" name="city" required>
+        </div>
+
+        <div class="form-group">
+          <label for="state">State *</label>
+          <input type="text" id="state" name="state" required>
+        </div>
+
+        <div class="form-group">
+          <label for="zip">ZIP Code *</label>
+          <input type="text" id="zip" name="zip" required>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Employment & Income</h3>
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label for="employer">Employer</label>
+          <input type="text" id="employer" name="employer">
+        </div>
+
+        <div class="form-group">
+          <label for="jobTitle">Job Title</label>
+          <input type="text" id="jobTitle" name="jobTitle">
+        </div>
+
+        <div class="form-group">
+          <label for="monthlyIncome">Monthly Income</label>
+          <input type="number" id="monthlyIncome" name="monthlyIncome">
+        </div>
+
+        <div class="form-group">
+          <label for="employmentLength">Length of Employment</label>
+          <input type="text" id="employmentLength" name="employmentLength">
+        </div>
+
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Rental History</h3>
+
+      <div class="form-grid">
+
+        <div class="form-group full">
+          <label for="previousAddress">Previous Rental Address</label>
+          <input type="text" id="previousAddress" name="previousAddress">
+        </div>
+
+        <div class="form-group">
+          <label for="previousLandlord">Previous Landlord</label>
+          <input type="text" id="previousLandlord" name="previousLandlord">
+        </div>
+
+        <div class="form-group">
+          <label for="landlordPhone">Landlord Phone</label>
+          <input type="tel" id="landlordPhone" name="landlordPhone">
+        </div>
+
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Additional Information</h3>
+
+      <div class="form-group">
+        <label for="additionalInfo">Anything else you would like us to know?</label>
+        <textarea id="additionalInfo" name="additionalInfo"></textarea>
+      </div>
+    </div>
+
+    <div class="fee-box">
+      <strong>Application Fee: $50</strong>
+      <p>
+        The application fee is $50. Please follow the instructions provided by
+        Nextep Realty for submitting the application fee.
+      </p>
+    </div>
+
+    <div class="consent-box">
+
+      <label>
+        <input type="checkbox" required>
+        I certify that the information provided in this application is true
+        and complete to the best of my knowledge.
+      </label>
+
+      <label>
+        <input type="checkbox" required>
+        I authorize Nextep Realty to verify the information provided in this
+        application and conduct appropriate screening.
+      </label>
+
+      <label>
+        <input type="checkbox" required>
+        I have read and agree to the rental application terms and consent
+        provided by Nextep Realty.
+      </label>
+
+    </div>
+
+    <br>
+
+    <button type="submit" class="submit-application">
+      Submit Rental Application
+    </button>
+
+  </form>
+
+</main>
+
+<footer>
+  <strong>Nextep Realty</strong>
+  <p>
+    Call or text:
+    <a href="tel:+12232273065">223-227-3065</a>
+  </p>
+  <small>© 2026 Nextep Realty. All rights reserved.</small>
+</footer>
+
+</body>
+</html>
