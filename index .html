@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nextep Realty - Available properties for rent in Philadelphia.">
+  <title>Nextep Realty | 1 Bedroom Apartment</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">NR</div>
+      <div>
+        <h1>Nextep Realty</h1>
+        <p>Find your next home</p>
+      </div>
+    </div>
+    <a class="header-call" href="tel:+12232273065">Call 223-227-3065</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <span class="eyebrow">NEXTEP REALTY • RENTALS</span>
+        <h2>Find a place you'll love to call home.</h2>
+        <p>Browse available rental properties and contact Nextep Realty directly to schedule a tour.</p>
+        <a class="primary-btn" href="#properties">View Property</a>
+      </div>
+    </section>
+
+    <section id="properties" class="section">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">AVAILABLE NOW</span>
+          <h2>1 Bedroom Apartment</h2>
+          <p class="address">1201 W Girard Avenue, Philadelphia, PA 19123</p>
+        </div>
+        <div class="price-badge">$850 <span>/ month</span></div>
+      </div>
+
+      <article class="property-card">
+        <div class="gallery">
+          <img id="main-photo" src="images/property-1.png" alt="Kitchen and living area at the 1 bedroom apartment">
+          <button class="gallery-btn prev" onclick="changePhoto(-1)" aria-label="Previous photo">‹</button>
+          <button class="gallery-btn next" onclick="changePhoto(1)" aria-label="Next photo">›</button>
+          <div class="photo-count" id="photo-count">1 / 9</div>
+        </div>
+        <div class="thumbs" id="thumbs"></div>
+
+        <div class="details">
+          <div class="quick-facts">
+            <div><strong>1</strong><span>Bedroom</span></div>
+            <div><strong>1</strong><span>Bathroom</span></div>
+            <div><strong>ASAP</strong><span>Move-in</span></div>
+            <div><strong>Rental</strong><span>Category</span></div>
+          </div>
+
+          <h3>Property Description</h3>
+          <p>
+            This spacious 1 bedroom, 1 bathroom unit comes with laundry, central AC, and contemporary finishes.
+            The kitchen boasts brand new stainless steel appliances including a dishwasher, garbage disposal,
+            microwave, and electric range, plus quartz countertops and plenty of cabinetry.
+          </p>
+          <p>
+            The bedroom is comfortably sized with diffused natural light, while the bathroom is complete with
+            a slate tiled shower/tub, LED mirror, and modern vanity.
+          </p>
+          <p>
+            Surrounded by public transportation options along Broad and Girard for traveling around the city,
+            and in close proximity to bustling neighborhoods like Francisville and Fairmount, where popular shops
+            and restaurants are abundant. See this exciting space for yourself and book your tour today!
+          </p>
+
+          <h3>Features</h3>
+          <ul class="features">
+            <li>Central AC</li>
+            <li>Laundry</li>
+            <li>Stainless steel appliances</li>
+            <li>Dishwasher</li>
+            <li>Garbage disposal</li>
+            <li>Microwave</li>
+            <li>Electric range</li>
+            <li>Quartz countertops</li>
+            <li>Modern cabinetry</li>
+            <li>Slate-tiled shower/tub</li>
+            <li>LED mirror</li>
+            <li>Modern vanity</li>
+          </ul>
+
+          <div class="contact-box">
+            <div>
+              <span class="eyebrow">SCHEDULE A TOUR</span>
+              <h3>Interested in this property?</h3>
+              <p>Call or text Nextep Realty for more details and scheduling.</p>
+            </div>
+            <div class="actions">
+              <a class="call" href="tel:+12232273065">📞 Call</a>
+              <a class="text" href="sms:+12232273065">💬 Text</a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Nextep Realty</strong>
+    <p>Call or text: <a href="tel:+12232273065">223-227-3065</a></p>
+    <small>© 2026 Nextep Realty. All rights reserved.</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

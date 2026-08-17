@@ -1,0 +1,24 @@
+*{box-sizing:border-box}
+:root{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172033;background:#f7f8fb}
+body{margin:0}
+.topbar{background:#101828;color:white;display:flex;align-items:center;justify-content:space-between;padding:18px 6%;gap:20px}
+.brand{display:flex;align-items:center;gap:12px}.brand h1{margin:0;font-size:1.25rem}.brand p{margin:3px 0 0;color:#b9c2d0;font-size:.82rem}
+.logo{width:44px;height:44px;border-radius:12px;background:#fff;color:#101828;display:grid;place-items:center;font-weight:800}
+.header-call{color:#101828;background:#fff;padding:11px 16px;border-radius:9px;text-decoration:none;font-weight:700}
+.hero{min-height:350px;padding:65px 6%;display:flex;align-items:center;background:linear-gradient(135deg,#dce8f5,#f9fafb 60%,#eef2f7)}
+.hero>div{max-width:700px}.eyebrow{font-size:.75rem;font-weight:800;letter-spacing:.14em;color:#52647b}
+.hero h2{font-size:clamp(2.2rem,6vw,4rem);line-height:1.03;margin:12px 0 18px;max-width:760px}
+.hero p{font-size:1.05rem;line-height:1.7;color:#526071;max-width:620px}
+.primary-btn{display:inline-block;margin-top:14px;background:#101828;color:#fff;padding:14px 19px;border-radius:10px;text-decoration:none;font-weight:700}
+.section{padding:60px 6%;max-width:1250px;margin:auto}.section-heading{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:25px}
+.section h2{font-size:2rem;margin:6px 0}.address{margin:0;color:#667085}.price-badge{background:#101828;color:white;border-radius:12px;padding:15px 18px;font-weight:800;font-size:1.25rem;white-space:nowrap}.price-badge span{font-size:.85rem;font-weight:500;color:#cbd5e1}
+.property-card{background:#fff;border:1px solid #e6eaf0;border-radius:18px;overflow:hidden;box-shadow:0 8px 28px rgba(16,24,40,.07)}
+.gallery{height:min(62vw,620px);min-height:300px;position:relative;background:#e5e7eb;display:flex;align-items:center;justify-content:center}
+.gallery img{width:100%;height:100%;object-fit:cover;display:block}.gallery-btn{position:absolute;top:50%;transform:translateY(-50%);border:0;background:rgba(16,24,40,.72);color:#fff;width:44px;height:44px;border-radius:50%;font-size:2rem;line-height:1;cursor:pointer}.prev{left:18px}.next{right:18px}.photo-count{position:absolute;bottom:15px;right:15px;background:rgba(16,24,40,.75);color:white;padding:7px 10px;border-radius:8px;font-size:.85rem}
+.thumbs{display:flex;gap:9px;overflow-x:auto;padding:12px;background:#fff}.thumbs button{border:2px solid transparent;padding:0;border-radius:7px;background:none;flex:0 0 76px;cursor:pointer}.thumbs button.active{border-color:#101828}.thumbs img{width:72px;height:58px;object-fit:cover;border-radius:5px;display:block}
+.details{padding:28px}.quick-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:30px}.quick-facts div{background:#f7f8fb;border-radius:10px;padding:14px;text-align:center}.quick-facts strong{display:block;font-size:1.05rem}.quick-facts span{font-size:.78rem;color:#667085}
+.details h3{margin:25px 0 10px;font-size:1.25rem}.details p{line-height:1.75;color:#526071}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-left:20px;color:#475467;line-height:1.6}
+.contact-box{margin-top:30px;padding:24px;background:#eef2f7;border-radius:14px;display:flex;justify-content:space-between;align-items:center;gap:20px}.contact-box h3{margin:6px 0}.contact-box p{margin:0}.actions{display:flex;gap:10px}.actions a{display:inline-block;text-align:center;padding:12px 18px;border-radius:9px;text-decoration:none;font-weight:700}.call{background:#101828;color:white}.text{border:1px solid #d0d5dd;color:#101828;background:#fff}
+footer{text-align:center;padding:40px 20px;background:#101828;color:#fff}footer p{color:#cbd5e1}footer a{color:#fff}footer small{color:#98a2b3}
+@media(max-width:700px){.topbar{align-items:flex-start}.header-call{font-size:.8rem;padding:9px}.hero{padding:55px 6%}.section-heading{align-items:flex-start;flex-direction:column}.price-badge{align-self:flex-start}.quick-facts{grid-template-columns:repeat(2,1fr)}.features{grid-template-columns:1fr 1fr}.contact-box{align-items:stretch;flex-direction:column}.actions a{flex:1}.details{padding:20px}}
+@media(max-width:430px){.features{grid-template-columns:1fr}.gallery{height:80vw}.thumbs button{flex-basis:68px}.thumbs img{width:64px;height:52px}}
