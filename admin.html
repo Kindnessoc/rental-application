@@ -1,9 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Next Home Realty - Admin</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -46,6 +48,10 @@
       cursor: pointer;
     }
 
+    button:hover {
+      opacity: 0.9;
+    }
+
     .message {
       margin-top: 15px;
       font-weight: bold;
@@ -53,6 +59,10 @@
 
     #dashboard {
       display: none;
+    }
+
+    .forgot {
+      background: #6b7280;
     }
   </style>
 </head>
@@ -63,36 +73,88 @@
 
   <h1>Next Home Realty</h1>
 
+  <!-- LOGIN -->
   <div id="login">
+
     <h2>Private Dashboard Login</h2>
 
-    <input type="email" id="email" placeholder="Email address">
-    <input type="password" id="password" placeholder="Password">
+    <input
+      type="email"
+      id="email"
+      placeholder="Email address"
+    >
 
-    <button onclick="login()">Log In</button>
+    <input
+      type="password"
+      id="password"
+      placeholder="Password"
+    >
+
+    <button onclick="login()">
+      Log In
+    </button>
+
+    <button class="forgot" onclick="resetPassword()">
+      Forgot Password?
+    </button>
 
     <div id="loginMessage" class="message"></div>
+
   </div>
 
+
+  <!-- ADMIN DASHBOARD -->
   <div id="dashboard">
 
     <h2>Add New Property</h2>
 
-    <input id="title" placeholder="Property title">
-    <input id="price" placeholder="Price">
-    <input id="location" placeholder="Location">
-    <input id="bedrooms" placeholder="Bedrooms">
-    <input id="bathrooms" placeholder="Bathrooms">
+    <input
+      id="title"
+      placeholder="Property title"
+    >
 
-    <textarea id="description" placeholder="Property description"></textarea>
+    <input
+      id="price"
+      placeholder="Price"
+    >
 
-    <input id="image_url" placeholder="Property image URL">
+    <input
+      id="location"
+      placeholder="Location"
+    >
 
-    <input id="contact_phone" placeholder="Contact phone number">
+    <input
+      id="bedrooms"
+      placeholder="Bedrooms"
+    >
 
-    <button onclick="addProperty()">Add Property</button>
+    <input
+      id="bathrooms"
+      placeholder="Bathrooms"
+    >
 
-    <button onclick="logout()">Log Out</button>
+    <textarea
+      id="description"
+      placeholder="Property description"
+    ></textarea>
+
+    <input
+      id="image_url"
+      placeholder="Property image URL"
+    >
+
+    <input
+      id="contact_phone"
+      placeholder="Contact phone number"
+    >
+
+    <button onclick="addProperty()">
+      Add Property
+    </button>
+
+    <button onclick="logout()">
+      Log Out
+    </button>
 
     <div id="message" class="message"></div>
 
@@ -100,67 +162,167 @@
 
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-  const SUPABASE_URL = "https://nwohrchlobeuamkbeddn.supabase.co";
 
-  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_CnNpbSInnNuwkog-UiW6lg_rFXTr6Tk";
+  const SUPABASE_URL =
+    "https://nwohrchlobeuamkbeddn.supabase.co";
 
-  const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_CnNpbSInnNuwkog-UiW6lg_rFXTr6Tk";
 
+  const supabaseClient =
+    supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+  // LOGIN
   async function login() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
 
-    const { error } = await supabaseClient.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
+    const email =
+      document.getElementById("email").value.trim();
 
-    if (error) {
-      document.getElementById("loginMessage").textContent = error.message;
+    const password =
+      document.getElementById("password").value;
+
+    if (!email || !password) {
+      document.getElementById("loginMessage").textContent =
+        "Please enter your email and password.";
+
       return;
     }
 
-    document.getElementById("login").style.display = "none";
-    document.getElementById("dashboard").style.display = "block";
+    const { error } =
+      await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+    if (error) {
+
+      document.getElementById("loginMessage").textContent =
+        error.message;
+
+      return;
+    }
+
+    document.getElementById("login").style.display =
+      "none";
+
+    document.getElementById("dashboard").style.display =
+      "block";
+
+    document.getElementById("loginMessage").textContent =
+      "";
+
   }
 
+
+  // FORGOT PASSWORD
+  async function resetPassword() {
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    if (!email) {
+
+      document.getElementById("loginMessage").textContent =
+        "Please enter your email address first.";
+
+      return;
+    }
+
+    const { error } =
+      await supabaseClient.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo:
+            "https://kindnessoc.github.io/rental-application/update-password.html"
+        }
+      );
+
+    if (error) {
+
+      document.getElementById("loginMessage").textContent =
+        error.message;
+
+      return;
+    }
+
+    document.getElementById("loginMessage").textContent =
+      "Password reset email sent. Please check your email.";
+
+  }
+
+
+  // ADD PROPERTY
   async function addProperty() {
-    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    const {
+      data: { user }
+    } = await supabaseClient.auth.getUser();
 
     if (!user) {
+
       alert("Please log in first.");
+
       return;
     }
 
     const property = {
-      title: document.getElementById("title").value,
-      price: document.getElementById("price").value,
-      location: document.getElementById("location").value,
-      bedrooms: document.getElementById("bedrooms").value,
-      bathrooms: document.getElementById("bathrooms").value,
-      description: document.getElementById("description").value,
-      image_url: document.getElementById("image_url").value,
-      contact_phone: document.getElementById("contact_phone").value,
-      status: "Available"
+
+      title:
+        document.getElementById("title").value,
+
+      price:
+        document.getElementById("price").value,
+
+      location:
+        document.getElementById("location").value,
+
+      bedrooms:
+        document.getElementById("bedrooms").value,
+
+      bathrooms:
+        document.getElementById("bathrooms").value,
+
+      description:
+        document.getElementById("description").value,
+
+      image_url:
+        document.getElementById("image_url").value,
+
+      contact_phone:
+        document.getElementById("contact_phone").value,
+
+      status:
+        "Available"
+
     };
 
-    const { error } = await supabaseClient
-      .from("properties")
-      .insert([property]);
+
+    const { error } =
+      await supabaseClient
+        .from("properties")
+        .insert([property]);
+
 
     if (error) {
-      document.getElementById("message").textContent = error.message;
+
+      document.getElementById("message").textContent =
+        error.message;
+
       return;
     }
 
+
     document.getElementById("message").textContent =
       "Property added successfully!";
+
 
     document.getElementById("title").value = "";
     document.getElementById("price").value = "";
@@ -170,15 +332,26 @@
     document.getElementById("description").value = "";
     document.getElementById("image_url").value = "";
     document.getElementById("contact_phone").value = "";
+
   }
 
+
+  // LOG OUT
   async function logout() {
+
     await supabaseClient.auth.signOut();
 
-    document.getElementById("dashboard").style.display = "none";
-    document.getElementById("login").style.display = "block";
+    document.getElementById("dashboard").style.display =
+      "none";
+
+    document.getElementById("login").style.display =
+      "block";
+
   }
+
 </script>
 
 </body>
 </html>
+```
+      
