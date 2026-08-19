@@ -3,257 +3,423 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Next Home Realty - Admin</title>
+  <title>Nextep Realty - Admin</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f6f8;
-      margin: 0;
+      color: #222;
+    }
+
+    header {
+      background: #111827;
+      color: white;
       padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 5px;
+      font-size: 25px;
+    }
+
+    header p {
+      margin: 0;
+      color: #d1d5db;
     }
 
     .container {
       max-width: 700px;
-      margin: auto;
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,.1);
+      margin: 25px auto;
+      padding: 0 15px;
     }
 
-    h1 {
-      margin-top: 0;
-      text-align: center;
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.08);
     }
 
     h2 {
-      text-align: center;
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 15px;
+      margin-bottom: 6px;
     }
 
     input,
     textarea,
-    button {
+    select {
       width: 100%;
-      box-sizing: border-box;
       padding: 13px;
-      margin: 7px 0 15px;
-      border: 1px solid #ccc;
-      border-radius: 7px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
       font-size: 16px;
     }
 
     textarea {
       min-height: 120px;
+      resize: vertical;
     }
 
     button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 18px;
+    }
+
+    .login-btn {
       background: #111827;
       color: white;
-      border: none;
-      cursor: pointer;
-      font-size: 17px;
     }
 
-    button.forgot {
-      background: #6b7280;
+    .save-btn {
+      background: #16a34a;
+      color: white;
     }
 
-    button.upload {
-      background: #2563eb;
-    }
-
-    button.logout {
+    .logout-btn {
       background: #dc2626;
+      color: white;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .message {
-      margin-top: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 15px;
+      display: none;
+      line-height: 1.4;
+    }
+
+    .success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    #adminArea {
+      display: none;
+    }
+
+    #loginArea {
+      display: block;
+    }
+
+    .image-box {
+      border: 2px dashed #9ca3af;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      background: #f9fafb;
+    }
+
+    .image-box p {
+      margin: 5px 0 12px;
+      color: #6b7280;
+    }
+
+    #imageInput {
+      border: none;
+      padding: 5px;
+      background: transparent;
+    }
+
+    #preview {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .preview-item {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #e5e7eb;
+      aspect-ratio: 1 / 1;
+    }
+
+    .preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .preview-number {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 5px 8px;
+      border-radius: 5px;
+      font-size: 12px;
+    }
+
+    .remove-image {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: #dc2626;
+      color: white;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      margin: 0;
+      border-radius: 50%;
+      font-size: 18px;
+      line-height: 30px;
+    }
+
+    .upload-status {
+      margin-top: 12px;
       font-weight: bold;
       text-align: center;
     }
 
-    .image-preview {
-      width: 100%;
-      max-height: 300px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-top: 5px;
-      display: none;
+    .hidden {
+      display: none !important;
     }
 
-    .selected-file {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 15px;
+    .small-note {
+      color: #6b7280;
+      font-size: 13px;
+      margin-top: 6px;
     }
 
-    #dashboard {
-      display: none;
-    }
-
-    #fileInput {
-      display: none;
-    }
-
-    .file-label {
-      display: block;
-      width: 100%;
-      box-sizing: border-box;
-      padding: 14px;
-      margin: 7px 0 15px;
-      background: #2563eb;
-      color: white;
-      text-align: center;
-      border-radius: 7px;
-      cursor: pointer;
-      font-size: 17px;
+    @media (max-width: 500px) {
+      #preview {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   </style>
 </head>
 
 <body>
 
+<header>
+  <h1>Nextep Realty</h1>
+  <p>Property Admin Dashboard</p>
+</header>
+
 <div class="container">
 
-  <h1>Next Home Realty</h1>
-
   <!-- LOGIN -->
-  <div id="login">
+  <div id="loginArea" class="card">
+    <h2>Admin Login</h2>
 
-    <h2>Private Dashboard Login</h2>
-
+    <label for="email">Email</label>
     <input
       type="email"
       id="email"
-      placeholder="Email address"
+      placeholder="Enter admin email"
       autocomplete="email"
     >
 
+    <label for="password">Password</label>
     <input
       type="password"
       id="password"
-      placeholder="Password"
+      placeholder="Enter password"
       autocomplete="current-password"
     >
 
-    <button onclick="login()">Log In</button>
+    <button class="login-btn" id="loginButton" onclick="login()">
+      Login
+    </button>
 
-    <button class="forgot" onclick="resetPassword()">
-      Forgot Password?
+    <button
+      type="button"
+      style="background:#e5e7eb;color:#111827;"
+      onclick="resetPassword()"
+    >
+      Forgot Password
     </button>
 
     <div id="loginMessage" class="message"></div>
-
   </div>
 
 
-  <!-- ADMIN DASHBOARD -->
-  <div id="dashboard">
+  <!-- ADMIN AREA -->
+  <div id="adminArea">
 
-    <h2>Add New Property</h2>
+    <div class="card">
+      <h2>Add New Property</h2>
 
-    <input
-      id="title"
-      placeholder="Property title"
-    >
+      <label for="title">Property Title</label>
+      <input
+        type="text"
+        id="title"
+        placeholder="Example: 1 Bedroom Apartment"
+      >
 
-    <input
-      id="price"
-      placeholder="Price"
-    >
+      <label for="address">Address</label>
+      <input
+        type="text"
+        id="address"
+        placeholder="Example: 1201 W Girard Avenue, Philadelphia, PA 19123"
+      >
 
-    <input
-      id="location"
-      placeholder="Location"
-    >
+      <label for="price">Price</label>
+      <input
+        type="text"
+        id="price"
+        placeholder="Example: $850"
+      >
 
-    <input
-      id="bedrooms"
-      placeholder="Bedrooms"
-      type="number"
-    >
+      <label for="bedrooms">Bedrooms</label>
+      <input
+        type="number"
+        id="bedrooms"
+        placeholder="1"
+        min="0"
+      >
 
-    <input
-      id="bathrooms"
-      placeholder="Bathrooms"
-      type="number"
-    >
+      <label for="bathrooms">Bathrooms</label>
+      <input
+        type="number"
+        id="bathrooms"
+        placeholder="1"
+        min="0"
+      >
 
-    <textarea
-      id="description"
-      placeholder="Property description"
-    ></textarea>
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        placeholder="Enter property description..."
+      ></textarea>
 
+      <label>Property Pictures</label>
 
-    <!-- PHOTO UPLOAD -->
-    <label class="file-label" for="fileInput">
-      📷 Choose Property Photo
-    </label>
+      <div class="image-box">
+        <p>
+          Select multiple pictures from your phone gallery.
+        </p>
 
-    <input
-      type="file"
-      id="fileInput"
-      accept="image/*"
-      onchange="showSelectedImage(event)"
-    >
+        <input
+          type="file"
+          id="imageInput"
+          accept="image/*"
+          multiple
+        >
 
-    <div id="selectedFile" class="selected-file">
-      No photo selected
+        <div class="small-note">
+          You can select several pictures at the same time.
+        </div>
+      </div>
+
+      <div id="preview"></div>
+
+      <div id="uploadStatus" class="upload-status"></div>
+
+      <button
+        class="save-btn"
+        id="saveButton"
+        onclick="saveProperty()"
+      >
+        Upload Property
+      </button>
+
+      <div id="propertyMessage" class="message"></div>
+
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+        Logout
+      </button>
     </div>
-
-    <img
-      id="imagePreview"
-      class="image-preview"
-      alt="Property photo preview"
-    >
-
-
-    <input
-      id="contact_phone"
-      placeholder="Contact phone number"
-      value="223-227-3065"
-    >
-
-    <button
-      class="upload"
-      onclick="addProperty()"
-    >
-      Add Property
-    </button>
-
-    <button
-      class="logout"
-      onclick="logout()"
-    >
-      Log Out
-    </button>
-
-    <div id="message" class="message"></div>
 
   </div>
 
 </div>
 
 
+<!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
-  const SUPABASE_URL =
-    "https://nwohrchlobeuamkbeddn.supabase.co";
+  /*
+   ============================================================
+   PUT YOUR SUPABASE INFORMATION HERE
+   ============================================================
+  */
 
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_CnNpbSInnNuwkog-UiW6lg_rFXTr6Tk";
+  const SUPABASE_URL = "PASTE YOUR SUPABASE PROJECT URL HERE";
 
-
-  const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
+  const SUPABASE_KEY = "PASTE YOUR SUPABASE PUBLISHABLE KEY HERE";
 
 
-  // LOGIN
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  /*
+   ============================================================
+   VARIABLES
+   ============================================================
+  */
+
+  let selectedFiles = [];
+
+
+  /*
+   ============================================================
+   CHECK LOGIN
+   ============================================================
+  */
+
+  async function checkLogin() {
+
+    const {
+      data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    if (session) {
+      showAdmin();
+    } else {
+      showLogin();
+    }
+  }
+
+
+  /*
+   ============================================================
+   LOGIN
+   ============================================================
+  */
+
   async function login() {
 
     const email =
@@ -262,21 +428,22 @@
     const password =
       document.getElementById("password").value;
 
-    const message =
-      document.getElementById("loginMessage");
-
+    const button =
+      document.getElementById("loginButton");
 
     if (!email || !password) {
 
-      message.textContent =
-        "Please enter your email and password.";
+      showMessage(
+        "loginMessage",
+        "Please enter your email and password.",
+        "error"
+      );
 
       return;
     }
 
-
-    message.textContent = "Logging in...";
-
+    button.disabled = true;
+    button.textContent = "Logging in...";
 
     const { error } =
       await supabaseClient.auth.signInWithPassword({
@@ -284,313 +451,581 @@
         password: password
       });
 
+    button.disabled = false;
+    button.textContent = "Login";
 
     if (error) {
 
-      message.textContent =
-        error.message;
+      showMessage(
+        "loginMessage",
+        error.message,
+        "error"
+      );
 
       return;
     }
 
+    showAdmin();
 
-    document.getElementById("login").style.display =
-      "none";
-
-    document.getElementById("dashboard").style.display =
-      "block";
-
-    message.textContent = "";
   }
 
 
-  // PASSWORD RESET
+  /*
+   ============================================================
+   FORGOT PASSWORD
+   ============================================================
+  */
+
   async function resetPassword() {
 
     const email =
       document.getElementById("email").value.trim();
 
-    const message =
-      document.getElementById("loginMessage");
-
-
     if (!email) {
 
-      message.textContent =
-        "Please enter your email address first.";
+      showMessage(
+        "loginMessage",
+        "Enter your email address first, then tap Forgot Password.",
+        "error"
+      );
 
       return;
     }
-
-
-    message.textContent =
-      "Sending password reset email...";
-
 
     const { error } =
       await supabaseClient.auth.resetPasswordForEmail(
         email,
         {
           redirectTo:
-            "https://kindnessoc.github.io/rental-application/update-password.html"
+            window.location.origin +
+            window.location.pathname
         }
       );
 
-
     if (error) {
 
-      message.textContent =
-        error.message;
+      showMessage(
+        "loginMessage",
+        error.message,
+        "error"
+      );
 
       return;
     }
 
+    showMessage(
+      "loginMessage",
+      "Password reset instructions have been sent to your email.",
+      "success"
+    );
 
-    message.textContent =
-      "Password reset email sent. Please check your email.";
   }
 
 
-  // SHOW SELECTED PHOTO
-  function showSelectedImage(event) {
-
-    const file =
-      event.target.files[0];
-
-    const preview =
-      document.getElementById("imagePreview");
-
-    const selectedFile =
-      document.getElementById("selectedFile");
-
-
-    if (!file) {
-
-      preview.style.display = "none";
-
-      selectedFile.textContent =
-        "No photo selected";
-
-      return;
-    }
-
-
-    selectedFile.textContent =
-      "Selected: " + file.name;
-
-
-    const reader =
-      new FileReader();
-
-
-    reader.onload = function(e) {
-
-      preview.src = e.target.result;
-
-      preview.style.display = "block";
-    };
-
-
-    reader.readAsDataURL(file);
-  }
-
-
-  // ADD PROPERTY
-  async function addProperty() {
-
-    const message =
-      document.getElementById("message");
-
-
-    const {
-      data: { user }
-    } = await supabaseClient.auth.getUser();
-
-
-    if (!user) {
-
-      message.textContent =
-        "Please log in first.";
-
-      return;
-    }
-
-
-    const file =
-      document.getElementById("fileInput").files[0];
-
-
-    if (!file) {
-
-      message.textContent =
-        "Please choose a property photo.";
-
-      return;
-    }
-
-
-    const title =
-      document.getElementById("title").value.trim();
-
-    const price =
-      document.getElementById("price").value.trim();
-
-    const location =
-      document.getElementById("location").value.trim();
-
-    const bedrooms =
-      document.getElementById("bedrooms").value.trim();
-
-    const bathrooms =
-      document.getElementById("bathrooms").value.trim();
-
-    const description =
-      document.getElementById("description").value.trim();
-
-    const contact_phone =
-      document.getElementById("contact_phone").value.trim();
-
-
-    if (!title || !price || !location) {
-
-      message.textContent =
-        "Please enter the property title, price, and location.";
-
-      return;
-    }
-
-
-    message.textContent =
-      "Uploading property photo...";
-
-
-    // Create a unique filename
-    const fileExtension =
-      file.name.split(".").pop();
-
-    const fileName =
-      Date.now() +
-      "-" +
-      Math.random().toString(36).substring(2) +
-      "." +
-      fileExtension;
-
-
-    const filePath =
-      "properties/" + fileName;
-
-
-    // Upload photo to Supabase Storage
-    const { error: uploadError } =
-      await supabaseClient.storage
-        .from("property-images")
-        .upload(filePath, file, {
-          cacheControl: "3600",
-          upsert: false,
-          contentType: file.type
-        });
-
-
-    if (uploadError) {
-
-      message.textContent =
-        "Photo upload failed: " +
-        uploadError.message;
-
-      return;
-    }
-
-
-    // Get public photo URL
-    const { data: publicUrlData } =
-      supabaseClient.storage
-        .from("property-images")
-        .getPublicUrl(filePath);
-
-
-    const imageUrl =
-      publicUrlData.publicUrl;
-
-
-    message.textContent =
-      "Saving property...";
-
-
-    // Save property information
-    const property = {
-
-      title: title,
-
-      price: price,
-
-      location: location,
-
-      bedrooms: bedrooms,
-
-      bathrooms: bathrooms,
-
-      description: description,
-
-      image_url: imageUrl,
-
-      contact_phone:
-        contact_phone || "223-227-3065",
-
-      status: "Available"
-    };
-
-
-    const { error: propertyError } =
-      await supabaseClient
-        .from("properties")
-        .insert([property]);
-
-
-    if (propertyError) {
-
-      message.textContent =
-        "Property could not be saved: " +
-        propertyError.message;
-
-      return;
-    }
-
-
-    message.textContent =
-      "✅ Property and photo added successfully!";
-
-
-    // Clear form
-    document.getElementById("title").value = "";
-    document.getElementById("price").value = "";
-    document.getElementById("location").value = "";
-    document.getElementById("bedrooms").value = "";
-    document.getElementById("bathrooms").value = "";
-    document.getElementById("description").value = "";
-
-    document.getElementById("fileInput").value = "";
-
-    document.getElementById("selectedFile").textContent =
-      "No photo selected";
-
-    document.getElementById("imagePreview").style.display =
+  /*
+   ============================================================
+   SHOW ADMIN
+   ============================================================
+  */
+
+  function showAdmin() {
+
+    document.getElementById("loginArea").style.display =
       "none";
 
+    document.getElementById("adminArea").style.display =
+      "block";
   }
 
 
-  // LOG OUT
+  /*
+   ============================================================
+   SHOW LOGIN
+   ============================================================
+  */
+
+  function showLogin() {
+
+    document.getElementById("loginArea").style.display =
+      "block";
+
+    document.getElementById("adminArea").style.display =
+      "none";
+  }
+
+
+  /*
+   ============================================================
+   LOGOUT
+   ============================================================
+  */
+
   async function logout() {
 
     await supabaseClient.auth.signOut();
 
-    document.getElementById("dashboard").style.display =
-      "none";
+    showLogin();
 
-    document.getElementById("login").style.display =
+  }
+
+
+  /*
+   ============================================================
+   MULTIPLE IMAGE SELECTION
+   ============================================================
+  */
+
+  document
+    .getElementById("imageInput")
+    .addEventListener("change", function(event) {
+
+      const newFiles =
+        Array.from(event.target.files);
+
+      /*
+       Add the newly selected pictures
+       to the existing selection.
+      */
+
+      selectedFiles =
+        selectedFiles.concat(newFiles);
+
+      /*
+       Remove duplicate files.
+      */
+
+      const uniqueFiles = [];
+
+      const seen = new Set();
+
+      selectedFiles.forEach(file => {
+
+        const key =
+          file.name +
+          "_" +
+          file.size +
+          "_" +
+          file.lastModified;
+
+        if (!seen.has(key)) {
+
+          seen.add(key);
+          uniqueFiles.push(file);
+
+        }
+
+      });
+
+      selectedFiles = uniqueFiles;
+
+      displayPreviews();
+
+      /*
+       Clear input so the user can select
+       another group of pictures later.
+      */
+
+      event.target.value = "";
+
+    });
+
+
+  /*
+   ============================================================
+   DISPLAY IMAGE PREVIEWS
+   ============================================================
+  */
+
+  function displayPreviews() {
+
+    const preview =
+      document.getElementById("preview");
+
+    preview.innerHTML = "";
+
+    selectedFiles.forEach((file, index) => {
+
+      const reader =
+        new FileReader();
+
+      reader.onload = function(e) {
+
+        const item =
+          document.createElement("div");
+
+        item.className =
+          "preview-item";
+
+        item.innerHTML = `
+          <img src="${e.target.result}" alt="Property picture">
+          <div class="preview-number">
+            Picture ${index + 1}
+          </div>
+          <button
+            type="button"
+            class="remove-image"
+            onclick="removeImage(${index})"
+          >
+            ×
+          </button>
+        `;
+
+        preview.appendChild(item);
+
+      };
+
+      reader.readAsDataURL(file);
+
+    });
+
+  }
+
+
+  /*
+   ============================================================
+   REMOVE SELECTED IMAGE
+   ============================================================
+  */
+
+  function removeImage(index) {
+
+    selectedFiles.splice(index, 1);
+
+    displayPreviews();
+
+  }
+
+
+  /*
+   ============================================================
+   SAVE PROPERTY
+   ============================================================
+  */
+
+  async function saveProperty() {
+
+    const title =
+      document.getElementById("title").value.trim();
+
+    const address =
+      document.getElementById("address").value.trim();
+
+    const price =
+      document.getElementById("price").value.trim();
+
+    const bedrooms =
+      document.getElementById("bedrooms").value;
+
+    const bathrooms =
+      document.getElementById("bathrooms").value;
+
+    const description =
+      document.getElementById("description").value.trim();
+
+    const saveButton =
+      document.getElementById("saveButton");
+
+    const status =
+      document.getElementById("uploadStatus");
+
+
+    /*
+     VALIDATION
+    */
+
+    if (!title ||
+        !address ||
+        !price ||
+        !description) {
+
+      showMessage(
+        "propertyMessage",
+        "Please fill in the property title, address, price and description.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (selectedFiles.length === 0) {
+
+      showMessage(
+        "propertyMessage",
+        "Please select at least one property picture.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    saveButton.disabled = true;
+
+    status.textContent =
+      "Uploading pictures...";
+
+
+    try {
+
+      /*
+       ========================================================
+       GET CURRENT USER
+       ========================================================
+      */
+
+      const {
+        data: { user }
+      } = await supabaseClient.auth.getUser();
+
+
+      if (!user) {
+
+        throw new Error(
+          "Your admin session has expired. Please log in again."
+        );
+
+      }
+
+
+      /*
+       ========================================================
+       UPLOAD ALL PICTURES
+       ========================================================
+      */
+
+      const imageUrls = [];
+
+
+      for (
+        let i = 0;
+        i < selectedFiles.length;
+        i++
+      ) {
+
+        const file =
+          selectedFiles[i];
+
+        status.textContent =
+          "Uploading picture " +
+          (i + 1) +
+          " of " +
+          selectedFiles.length +
+          "...";
+
+
+        /*
+         Create a unique file name.
+        */
+
+        const extension =
+          file.name.includes(".")
+            ? file.name.split(".").pop()
+            : "jpg";
+
+        const fileName =
+          Date.now() +
+          "-" +
+          crypto.randomUUID() +
+          "." +
+          extension;
+
+
+        const filePath =
+          "properties/" +
+          fileName;
+
+
+        /*
+         Upload to Supabase Storage.
+        */
+
+        const {
+          error: uploadError
+        } =
+          await supabaseClient
+            .storage
+            .from("property-images")
+            .upload(
+              filePath,
+              file,
+              {
+                cacheControl: "3600",
+                upsert: false
+              }
+            );
+
+
+        if (uploadError) {
+
+          throw uploadError;
+
+        }
+
+
+        /*
+         Get public URL.
+        */
+
+        const {
+          data: publicUrlData
+        } =
+          supabaseClient
+            .storage
+            .from("property-images")
+            .getPublicUrl(filePath);
+
+
+        if (
+          !publicUrlData ||
+          !publicUrlData.publicUrl
+        ) {
+
+          throw new Error(
+            "Could not create image URL."
+          );
+
+        }
+
+
+        imageUrls.push(
+          publicUrlData.publicUrl
+        );
+
+      }
+
+
+      /*
+       ========================================================
+       SAVE PROPERTY IN DATABASE
+       ========================================================
+      */
+
+      status.textContent =
+        "Saving property...";
+
+
+      const {
+        error: databaseError
+      } =
+        await supabaseClient
+          .from("properties")
+          .insert([
+            {
+              title: title,
+              address: address,
+              price: price,
+              bedrooms: bedrooms
+                ? Number(bedrooms)
+                : null,
+              bathrooms: bathrooms
+                ? Number(bathrooms)
+                : null,
+              description: description,
+
+              /*
+               Store all image URLs.
+              */
+
+              image_urls: imageUrls
+            }
+          ]);
+
+
+      if (databaseError) {
+
+        throw databaseError;
+
+      }
+
+
+      /*
+       ========================================================
+       SUCCESS
+       ========================================================
+      */
+
+      status.textContent = "";
+
+      showMessage(
+        "propertyMessage",
+        "Property uploaded successfully with " +
+        imageUrls.length +
+        " picture(s)!",
+        "success"
+      );
+
+
+      /*
+       Clear form.
+      */
+
+      document.getElementById("title").value = "";
+      document.getElementById("address").value = "";
+      document.getElementById("price").value = "";
+      document.getElementById("bedrooms").value = "";
+      document.getElementById("bathrooms").value = "";
+      document.getElementById("description").value = "";
+
+      selectedFiles = [];
+
+      document.getElementById("preview").innerHTML = "";
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      status.textContent = "";
+
+      showMessage(
+        "propertyMessage",
+        "Error: " +
+        (error.message || "Something went wrong."),
+        "error"
+      );
+
+    }
+
+
+    saveButton.disabled = false;
+
+  }
+
+
+  /*
+   ============================================================
+   MESSAGE
+   ============================================================
+  */
+
+  function showMessage(
+    elementId,
+    message,
+    type
+  ) {
+
+    const element =
+      document.getElementById(elementId);
+
+    element.textContent = message;
+
+    element.className =
+      "message " + type;
+
+    element.style.display =
       "block";
 
   }
+
+
+  /*
+   ============================================================
+   START
+   ============================================================
+  */
+
+  checkLogin();
 
 </script>
 
