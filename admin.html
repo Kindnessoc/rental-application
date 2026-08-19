@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Nextep Realty - Admin Dashboard</title>
 
   <style>
@@ -223,10 +224,13 @@
 <div class="container">
 
   <!-- LOGIN -->
+
   <div id="loginArea" class="card">
+
     <h2>Admin Login</h2>
 
     <label for="email">Email</label>
+
     <input
       type="email"
       id="email"
@@ -235,6 +239,7 @@
     >
 
     <label for="password">Password</label>
+
     <input
       type="password"
       id="password"
@@ -259,38 +264,48 @@
     </button>
 
     <div id="loginMessage" class="message"></div>
+
   </div>
 
 
   <!-- ADMIN AREA -->
+
   <div id="adminArea">
 
     <div class="card">
 
       <h2>Add New Property</h2>
 
+
       <label for="title">Property Title</label>
+
       <input
         type="text"
         id="title"
         placeholder="Example: 1 Bedroom Apartment"
       >
 
+
       <label for="location">Address / Location</label>
+
       <input
         type="text"
         id="location"
         placeholder="Example: 1201 W Girard Avenue, Philadelphia, PA 19123"
       >
 
+
       <label for="price">Price</label>
+
       <input
         type="text"
         id="price"
         placeholder="Example: $850"
       >
 
+
       <label for="bedrooms">Bedrooms</label>
+
       <input
         type="number"
         id="bedrooms"
@@ -298,7 +313,9 @@
         min="0"
       >
 
+
       <label for="bathrooms">Bathrooms</label>
+
       <input
         type="number"
         id="bathrooms"
@@ -306,23 +323,28 @@
         min="0"
       >
 
+
       <label for="description">Description</label>
+
       <textarea
         id="description"
         placeholder="Enter property description..."
       ></textarea>
 
+
       <label for="contactPhone">Contact Phone</label>
+
       <input
         type="text"
         id="contactPhone"
         value="223-227-3065"
-        placeholder="Phone number"
       >
+
 
       <label>Property Pictures</label>
 
       <div class="image-box">
+
         <p>
           Select multiple pictures from your phone gallery.
         </p>
@@ -337,11 +359,14 @@
         <div class="small-note">
           You can select several pictures at the same time.
         </div>
+
       </div>
+
 
       <div id="preview"></div>
 
       <div id="uploadStatus" class="upload-status"></div>
+
 
       <button
         class="save-btn"
@@ -351,7 +376,9 @@
         Upload Property
       </button>
 
+
       <div id="propertyMessage" class="message"></div>
+
 
       <button
         class="logout-btn"
@@ -368,13 +395,15 @@
 
 
 <!-- SUPABASE -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <script>
 
-  /* ============================================================
-     SUPABASE CONNECTION
-     ============================================================ */
+  /* ==========================================================
+     SUPABASE
+     ========================================================== */
 
   const SUPABASE_URL =
     "https://nwohrchlobeuamkbeddn.supabase.co";
@@ -389,35 +418,40 @@
     );
 
 
-  /* ============================================================
+  /* ==========================================================
      VARIABLES
-     ============================================================ */
+     ========================================================== */
 
   let selectedFiles = [];
 
 
-  /* ============================================================
+  /* ==========================================================
      CHECK LOGIN
-     ============================================================ */
+     ========================================================== */
 
   async function checkLogin() {
 
     const {
       data: { session }
-    } = await supabaseClient.auth.getSession();
+    } =
+      await supabaseClient.auth.getSession();
 
     if (session) {
+
       showAdmin();
+
     } else {
+
       showLogin();
+
     }
 
   }
 
 
-  /* ============================================================
+  /* ==========================================================
      LOGIN
-     ============================================================ */
+     ========================================================== */
 
   async function login() {
 
@@ -430,6 +464,7 @@
     const button =
       document.getElementById("loginButton");
 
+
     if (!email || !password) {
 
       showMessage(
@@ -439,19 +474,31 @@
       );
 
       return;
+
     }
 
+
     button.disabled = true;
-    button.textContent = "Logging in...";
+
+    button.textContent =
+      "Logging in...";
+
 
     const { error } =
       await supabaseClient.auth.signInWithPassword({
+
         email: email,
+
         password: password
+
       });
 
+
     button.disabled = false;
-    button.textContent = "Login";
+
+    button.textContent =
+      "Login";
+
 
     if (error) {
 
@@ -462,27 +509,24 @@
       );
 
       return;
+
     }
 
-    showMessage(
-      "loginMessage",
-      "Login successful.",
-      "success"
-    );
 
     showAdmin();
 
   }
 
 
-  /* ============================================================
+  /* ==========================================================
      FORGOT PASSWORD
-     ============================================================ */
+     ========================================================== */
 
   async function resetPassword() {
 
     const email =
       document.getElementById("email").value.trim();
+
 
     if (!email) {
 
@@ -493,7 +537,9 @@
       );
 
       return;
+
     }
+
 
     const { error } =
       await supabaseClient.auth.resetPasswordForEmail(
@@ -505,6 +551,7 @@
         }
       );
 
+
     if (error) {
 
       showMessage(
@@ -514,7 +561,9 @@
       );
 
       return;
+
     }
+
 
     showMessage(
       "loginMessage",
@@ -525,39 +574,39 @@
   }
 
 
-  /* ============================================================
+  /* ==========================================================
      SHOW ADMIN
-     ============================================================ */
+     ========================================================== */
 
   function showAdmin() {
 
-    document.getElementById("loginArea").style.display =
-      "none";
+    document.getElementById("loginArea")
+      .style.display = "none";
 
-    document.getElementById("adminArea").style.display =
-      "block";
+    document.getElementById("adminArea")
+      .style.display = "block";
 
   }
 
 
-  /* ============================================================
+  /* ==========================================================
      SHOW LOGIN
-     ============================================================ */
+     ========================================================== */
 
   function showLogin() {
 
-    document.getElementById("loginArea").style.display =
-      "block";
+    document.getElementById("loginArea")
+      .style.display = "block";
 
-    document.getElementById("adminArea").style.display =
-      "none";
+    document.getElementById("adminArea")
+      .style.display = "none";
 
   }
 
 
-  /* ============================================================
+  /* ==========================================================
      LOGOUT
-     ============================================================ */
+     ========================================================== */
 
   async function logout() {
 
@@ -568,170 +617,221 @@
   }
 
 
-  /* ============================================================
-     MULTIPLE IMAGE SELECTION
-     ============================================================ */
+  /* ==========================================================
+     SELECT MULTIPLE IMAGES
+     ========================================================== */
 
   document
     .getElementById("imageInput")
-    .addEventListener("change", function(event) {
+    .addEventListener(
+      "change",
+      function(event) {
 
-      const newFiles =
-        Array.from(event.target.files);
-
-      selectedFiles =
-        selectedFiles.concat(newFiles);
-
-      const uniqueFiles = [];
-
-      const seen = new Set();
-
-      selectedFiles.forEach(file => {
-
-        const key =
-          file.name +
-          "_" +
-          file.size +
-          "_" +
-          file.lastModified;
-
-        if (!seen.has(key)) {
-
-          seen.add(key);
-          uniqueFiles.push(file);
-
-        }
-
-      });
-
-      selectedFiles = uniqueFiles;
-
-      displayPreviews();
-
-      event.target.value = "";
-
-    });
+        const newFiles =
+          Array.from(event.target.files);
 
 
-  /* ============================================================
-     DISPLAY IMAGE PREVIEWS
-     ============================================================ */
+        selectedFiles =
+          selectedFiles.concat(newFiles);
+
+
+        const uniqueFiles = [];
+
+        const seen = new Set();
+
+
+        selectedFiles.forEach(
+          file => {
+
+            const key =
+              file.name +
+              "_" +
+              file.size +
+              "_" +
+              file.lastModified;
+
+
+            if (!seen.has(key)) {
+
+              seen.add(key);
+
+              uniqueFiles.push(file);
+
+            }
+
+          }
+        );
+
+
+        selectedFiles =
+          uniqueFiles;
+
+
+        displayPreviews();
+
+
+        event.target.value = "";
+
+      }
+    );
+
+
+  /* ==========================================================
+     DISPLAY PREVIEWS
+     ========================================================== */
 
   function displayPreviews() {
 
     const preview =
       document.getElementById("preview");
 
+
     preview.innerHTML = "";
 
-    selectedFiles.forEach((file, index) => {
 
-      const reader =
-        new FileReader();
+    selectedFiles.forEach(
+      (file, index) => {
 
-      reader.onload = function(e) {
+        const reader =
+          new FileReader();
 
-        const item =
-          document.createElement("div");
 
-        item.className =
-          "preview-item";
+        reader.onload =
+          function(e) {
 
-        item.innerHTML = `
-          <img
-            src="${e.target.result}"
-            alt="Property picture"
-          >
+            const item =
+              document.createElement("div");
 
-          <div class="preview-number">
-            Picture ${index + 1}
-          </div>
 
-          <button
-            type="button"
-            class="remove-image"
-            onclick="removeImage(${index})"
-          >
-            ×
-          </button>
-        `;
+            item.className =
+              "preview-item";
 
-        preview.appendChild(item);
 
-      };
+            item.innerHTML = `
 
-      reader.readAsDataURL(file);
+              <img
+                src="${e.target.result}"
+                alt="Property picture"
+              >
 
-    });
+              <div class="preview-number">
+                Picture ${index + 1}
+              </div>
+
+              <button
+                type="button"
+                class="remove-image"
+                onclick="removeImage(${index})"
+              >
+                ×
+              </button>
+
+            `;
+
+
+            preview.appendChild(item);
+
+          };
+
+
+        reader.readAsDataURL(file);
+
+      }
+    );
 
   }
 
 
-  /* ============================================================
+  /* ==========================================================
      REMOVE IMAGE
-     ============================================================ */
+     ========================================================== */
 
   function removeImage(index) {
 
-    selectedFiles.splice(index, 1);
+    selectedFiles.splice(
+      index,
+      1
+    );
 
     displayPreviews();
 
   }
 
 
-  /* ============================================================
+  /* ==========================================================
      SAVE PROPERTY
-     ============================================================ */
+     ========================================================== */
 
   async function saveProperty() {
 
     const title =
-      document.getElementById("title").value.trim();
+      document.getElementById("title")
+        .value.trim();
 
-    const location =
-      document.getElementById("location").value.trim();
-
-    const price =
-      document.getElementById("price").value.trim();
-
-    const bedrooms =
-      document.getElementById("bedrooms").value;
-
-    const bathrooms =
-      document.getElementById("bathrooms").value;
 
     const description =
-      document.getElementById("description").value.trim();
+      document.getElementById("description")
+        .value.trim();
+
+
+    const price =
+      document.getElementById("price")
+        .value.trim();
+
+
+    const location =
+      document.getElementById("location")
+        .value.trim();
+
+
+    const bedrooms =
+      document.getElementById("bedrooms")
+        .value;
+
+
+    const bathrooms =
+      document.getElementById("bathrooms")
+        .value;
+
 
     const contactPhone =
-      document.getElementById("contactPhone").value.trim();
+      document.getElementById("contactPhone")
+        .value.trim();
+
 
     const saveButton =
       document.getElementById("saveButton");
+
 
     const status =
       document.getElementById("uploadStatus");
 
 
+    /* ========================================================
+       VALIDATION
+       ======================================================== */
+
     if (
       !title ||
-      !location ||
+      !description ||
       !price ||
-      !description
+      !location
     ) {
 
       showMessage(
         "propertyMessage",
-        "Please fill in the title, address, price and description.",
+        "Please fill in the title, description, price and location.",
         "error"
       );
 
       return;
+
     }
 
 
-    if (selectedFiles.length === 0) {
+    if (
+      selectedFiles.length === 0
+    ) {
 
       showMessage(
         "propertyMessage",
@@ -740,20 +840,19 @@
       );
 
       return;
+
     }
 
 
-    saveButton.disabled = true;
-
-    status.textContent =
-      "Uploading pictures...";
+    saveButton.disabled =
+      true;
 
 
     try {
 
-      /* ========================================================
+      /* ======================================================
          CHECK USER
-         ======================================================== */
+         ====================================================== */
 
       const {
         data: { user }
@@ -770,9 +869,9 @@
       }
 
 
-      /* ========================================================
+      /* ======================================================
          UPLOAD IMAGES
-         ======================================================== */
+         ====================================================== */
 
       const imageUrls = [];
 
@@ -786,6 +885,7 @@
         const file =
           selectedFiles[i];
 
+
         status.textContent =
           "Uploading picture " +
           (i + 1) +
@@ -796,7 +896,9 @@
 
         const extension =
           file.name.includes(".")
-            ? file.name.split(".").pop()
+            ? file.name
+                .split(".")
+                .pop()
             : "jpg";
 
 
@@ -842,7 +944,9 @@
           supabaseClient
             .storage
             .from("property-images")
-            .getPublicUrl(filePath);
+            .getPublicUrl(
+              filePath
+            );
 
 
         if (
@@ -864,18 +968,13 @@
       }
 
 
-      /* ========================================================
-         SAVE PROPERTY
-         ======================================================== */
+      /* ======================================================
+         SAVE TO PROPERTIES TABLE
+         ====================================================== */
 
       status.textContent =
         "Saving property...";
 
-
-      /*
-       Your table has an image_url TEXT column.
-       We store all image URLs together as JSON.
-      */
 
       const {
         error: databaseError
@@ -883,30 +982,49 @@
         await supabaseClient
           .from("properties")
           .insert([
+
             {
-              title: title,
 
-              location: location,
+              title:
+                title,
 
-              price: price,
+              description:
+                description,
+
+              price:
+                price,
+
+              location:
+                location,
 
               bedrooms:
-                bedrooms || null,
+                bedrooms
+                  ? Number(bedrooms)
+                  : null,
 
               bathrooms:
-                bathrooms || null,
-
-              description: description,
+                bathrooms
+                  ? Number(bathrooms)
+                  : null,
 
               image_url:
-                JSON.stringify(imageUrls),
+                imageUrls.length > 0
+                  ? imageUrls[0]
+                  : null,
 
               contact_phone:
                 contactPhone,
 
               status:
-                "Available"
+                "Available",
+
+              images_urls:
+                JSON.stringify(
+                  imageUrls
+                )
+
             }
+
           ]);
 
 
@@ -917,11 +1035,12 @@
       }
 
 
-      /* ========================================================
+      /* ======================================================
          SUCCESS
-         ======================================================== */
+         ====================================================== */
 
       status.textContent = "";
+
 
       showMessage(
         "propertyMessage",
@@ -934,42 +1053,62 @@
 
       /* Clear form */
 
-      document.getElementById("title").value = "";
-      document.getElementById("location").value = "";
-      document.getElementById("price").value = "";
-      document.getElementById("bedrooms").value = "";
-      document.getElementById("bathrooms").value = "";
-      document.getElementById("description").value = "";
+      document.getElementById("title")
+        .value = "";
+
+      document.getElementById("description")
+        .value = "";
+
+      document.getElementById("price")
+        .value = "";
+
+      document.getElementById("location")
+        .value = "";
+
+      document.getElementById("bedrooms")
+        .value = "";
+
+      document.getElementById("bathrooms")
+        .value = "";
+
 
       selectedFiles = [];
 
-      document.getElementById("preview").innerHTML = "";
+
+      document.getElementById("preview")
+        .innerHTML = "";
 
 
     } catch (error) {
 
       console.error(error);
 
+
       status.textContent = "";
+
 
       showMessage(
         "propertyMessage",
         "Error: " +
-        (error.message || "Something went wrong."),
+        (
+          error.message ||
+          "Something went wrong."
+        ),
         "error"
       );
 
     }
 
 
-    saveButton.disabled = false;
+    saveButton.disabled =
+      false;
 
   }
 
 
-  /* ============================================================
+  /* ==========================================================
      MESSAGE
-     ============================================================ */
+     ========================================================== */
 
   function showMessage(
     elementId,
@@ -978,13 +1117,18 @@
   ) {
 
     const element =
-      document.getElementById(elementId);
+      document.getElementById(
+        elementId
+      );
+
 
     element.textContent =
       message;
 
+
     element.className =
       "message " + type;
+
 
     element.style.display =
       "block";
@@ -992,9 +1136,9 @@
   }
 
 
-  /* ============================================================
+  /* ==========================================================
      START
-     ============================================================ */
+     ========================================================== */
 
   checkLogin();
 
