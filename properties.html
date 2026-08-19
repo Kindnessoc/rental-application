@@ -1,65 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
+  <title>Nextep Realty - Properties</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Available Properties | Nextep Realty</title>
-  <link rel="stylesheet" href="styles.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .property {
+      background: white;
+      margin: 20px;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .images img {
+      width: 100%;
+      max-width: 350px;
+      height: 230px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin: 5px;
+    }
+
+    button {
+      background: #111;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-  <div class="container">
-    <h1>Nextep Realty</h1>
-    <p>Available Properties</p>
-  </div>
+<h1>Nextep Realty</h1>
+<p>Find your next home</p>
 </header>
 
-<main class="container">
+<div id="properties">
+Loading properties...
+</div>
 
-  <div class="page-intro">
-    <h2>Available Properties</h2>
-    <p>Browse our available rental properties and apply directly for the property you are interested in.</p>
-  </div>
 
-  <section class="property-grid">
+<script>
 
-    <!-- PROPERTY 1 -->
-    <article class="property-card">
-      <img src="property-1.png" alt="1 Bedroom Apartment">
-      
-      <div class="property-info">
-        <h3>1 Bedroom Apartment</h3>
-        <p class="price">$850/month</p>
+const SUPABASE_URL = "https://nwohrchlobeuamkbeddn.supabase.co";
 
-        <p><strong>Address:</strong><br>
-        1201 W Girard Avenue, Philadelphia, PA 19123</p>
+const SUPABASE_KEY = "sb_publishable_CnNpbSInnNuwkog-UiW6lg_rFXTr6Tk";
 
-        <p>1 Bedroom • 1 Bathroom</p>
+const supabaseClient = supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
-        <p>Comfortable rental apartment in a convenient location.</p>
 
-        <a
-          class="apply-button"
-          href="index.html?property=1-bedroom-apartment-1201-w-girard-avenue">
-          Apply for This Property
-        </a>
-      </div>
-    </article>
+async function loadProperties(){
 
-    <!-- ADD MORE PROPERTIES HERE LATER -->
+const {data,error} = await supabaseClient
+.from("properties")
+.select("*")
+.eq("status","available")
+.order("created_at",{ascending:false});
 
-  </section>
 
-</main>
+if(error){
+document.getElementById("properties").innerHTML =
+"Error loading properties";
+console.log(error);
+return;
+}
 
-<footer>
-  <div class="container">
-    <p>Nextep Realty</p>
-    <p>Call or Text: 223-227-3065</p>
-  </div>
-</footer>
+
+let html="";
+
+
+data.forEach(property=>{
+
+
+let images="";
+
+if(property.image_urls){
+
+let list = property.image_urls;
+
+if(typeof list === "string"){
+list = JSON.parse(list);
+}
+
+
+list.forEach(img=>{
+images += `
+<img src="${img}">
+`;
+});
+
+}
+
+
+html += `
+
+<div class="property">
+
+<h2>${property.title}</h2>
+
+<div class="images">
+${images}
+</div>
+
+<h3>$${property.price}</h3>
+
+<p>${property.description}</p>
+
+<p>
+Location: ${property.location}
+</p>
+
+<p>
+Bedrooms: ${property.bedrooms}
+<br>
+Bathrooms: ${property.bathrooms}
+</p>
+
+
+<a href="tel:${property.contact_phone}">
+<button>Call</button>
+</a>
+
+<a href="sms:${property.contact_phone}">
+<button>Text</button>
+</a>
+
+
+</div>
+
+`;
+
+});
+
+
+document.getElementById("properties").innerHTML = html;
+
+
+}
+
+
+loadProperties();
+
+</script>
 
 </body>
-      </html>
+</html>
