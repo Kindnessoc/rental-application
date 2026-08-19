@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nextep Realty - Admin</title>
+  <title>Nextep Realty - Admin Dashboard</title>
 
   <style>
     * {
@@ -60,8 +60,7 @@
     }
 
     input,
-    textarea,
-    select {
+    textarea {
       width: 100%;
       padding: 13px;
       border: 1px solid #d1d5db;
@@ -85,6 +84,11 @@
       margin-top: 18px;
     }
 
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .login-btn {
       background: #111827;
       color: white;
@@ -100,9 +104,9 @@
       color: white;
     }
 
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
+    .forgot-btn {
+      background: #e5e7eb;
+      color: #111827;
     }
 
     .message {
@@ -127,16 +131,13 @@
       display: none;
     }
 
-    #loginArea {
-      display: block;
-    }
-
     .image-box {
       border: 2px dashed #9ca3af;
       padding: 20px;
       border-radius: 10px;
       text-align: center;
       background: #f9fafb;
+      margin-top: 8px;
     }
 
     .image-box p {
@@ -204,20 +205,10 @@
       text-align: center;
     }
 
-    .hidden {
-      display: none !important;
-    }
-
     .small-note {
       color: #6b7280;
       font-size: 13px;
       margin-top: 6px;
-    }
-
-    @media (max-width: 500px) {
-      #preview {
-        grid-template-columns: repeat(2, 1fr);
-      }
     }
   </style>
 </head>
@@ -226,7 +217,7 @@
 
 <header>
   <h1>Nextep Realty</h1>
-  <p>Property Admin Dashboard</p>
+  <p>Private Property Admin Dashboard</p>
 </header>
 
 <div class="container">
@@ -251,13 +242,17 @@
       autocomplete="current-password"
     >
 
-    <button class="login-btn" id="loginButton" onclick="login()">
+    <button
+      class="login-btn"
+      id="loginButton"
+      onclick="login()"
+    >
       Login
     </button>
 
     <button
+      class="forgot-btn"
       type="button"
-      style="background:#e5e7eb;color:#111827;"
       onclick="resetPassword()"
     >
       Forgot Password
@@ -271,6 +266,7 @@
   <div id="adminArea">
 
     <div class="card">
+
       <h2>Add New Property</h2>
 
       <label for="title">Property Title</label>
@@ -280,10 +276,10 @@
         placeholder="Example: 1 Bedroom Apartment"
       >
 
-      <label for="address">Address</label>
+      <label for="location">Address / Location</label>
       <input
         type="text"
-        id="address"
+        id="location"
         placeholder="Example: 1201 W Girard Avenue, Philadelphia, PA 19123"
       >
 
@@ -315,6 +311,14 @@
         id="description"
         placeholder="Enter property description..."
       ></textarea>
+
+      <label for="contactPhone">Contact Phone</label>
+      <input
+        type="text"
+        id="contactPhone"
+        value="223-227-3065"
+        placeholder="Phone number"
+      >
 
       <label>Property Pictures</label>
 
@@ -355,6 +359,7 @@
       >
         Logout
       </button>
+
     </div>
 
   </div>
@@ -367,15 +372,15 @@
 
 <script>
 
-  /*
-   ============================================================
-   PUT YOUR SUPABASE INFORMATION HERE
-   ============================================================
-  */
+  /* ============================================================
+     SUPABASE CONNECTION
+     ============================================================ */
 
-  const SUPABASE_URL = "https://nwohrchlobeuamkbeddn.supabase.co;
+  const SUPABASE_URL =
+    "https://nwohrchlobeuamkbeddn.supabase.co";
 
-  const SUPABASE_KEY = "sb_publishable_CnNpbSInnNuwkog-UiW6lg_rFXTr6PASTE
+  const SUPABASE_KEY =
+    "sb_publishable_CnNpbSInnNuwkog-UiW6lg_rFXTr6Tk";
 
   const supabaseClient =
     window.supabase.createClient(
@@ -384,20 +389,16 @@
     );
 
 
-  /*
-   ============================================================
-   VARIABLES
-   ============================================================
-  */
+  /* ============================================================
+     VARIABLES
+     ============================================================ */
 
   let selectedFiles = [];
 
 
-  /*
-   ============================================================
-   CHECK LOGIN
-   ============================================================
-  */
+  /* ============================================================
+     CHECK LOGIN
+     ============================================================ */
 
   async function checkLogin() {
 
@@ -410,14 +411,13 @@
     } else {
       showLogin();
     }
+
   }
 
 
-  /*
-   ============================================================
-   LOGIN
-   ============================================================
-  */
+  /* ============================================================
+     LOGIN
+     ============================================================ */
 
   async function login() {
 
@@ -464,16 +464,20 @@
       return;
     }
 
+    showMessage(
+      "loginMessage",
+      "Login successful.",
+      "success"
+    );
+
     showAdmin();
 
   }
 
 
-  /*
-   ============================================================
-   FORGOT PASSWORD
-   ============================================================
-  */
+  /* ============================================================
+     FORGOT PASSWORD
+     ============================================================ */
 
   async function resetPassword() {
 
@@ -484,7 +488,7 @@
 
       showMessage(
         "loginMessage",
-        "Enter your email address first, then tap Forgot Password.",
+        "Enter your email first, then tap Forgot Password.",
         "error"
       );
 
@@ -521,11 +525,9 @@
   }
 
 
-  /*
-   ============================================================
-   SHOW ADMIN
-   ============================================================
-  */
+  /* ============================================================
+     SHOW ADMIN
+     ============================================================ */
 
   function showAdmin() {
 
@@ -534,14 +536,13 @@
 
     document.getElementById("adminArea").style.display =
       "block";
+
   }
 
 
-  /*
-   ============================================================
-   SHOW LOGIN
-   ============================================================
-  */
+  /* ============================================================
+     SHOW LOGIN
+     ============================================================ */
 
   function showLogin() {
 
@@ -550,14 +551,13 @@
 
     document.getElementById("adminArea").style.display =
       "none";
+
   }
 
 
-  /*
-   ============================================================
-   LOGOUT
-   ============================================================
-  */
+  /* ============================================================
+     LOGOUT
+     ============================================================ */
 
   async function logout() {
 
@@ -568,11 +568,9 @@
   }
 
 
-  /*
-   ============================================================
-   MULTIPLE IMAGE SELECTION
-   ============================================================
-  */
+  /* ============================================================
+     MULTIPLE IMAGE SELECTION
+     ============================================================ */
 
   document
     .getElementById("imageInput")
@@ -581,17 +579,8 @@
       const newFiles =
         Array.from(event.target.files);
 
-      /*
-       Add the newly selected pictures
-       to the existing selection.
-      */
-
       selectedFiles =
         selectedFiles.concat(newFiles);
-
-      /*
-       Remove duplicate files.
-      */
 
       const uniqueFiles = [];
 
@@ -619,21 +608,14 @@
 
       displayPreviews();
 
-      /*
-       Clear input so the user can select
-       another group of pictures later.
-      */
-
       event.target.value = "";
 
     });
 
 
-  /*
-   ============================================================
-   DISPLAY IMAGE PREVIEWS
-   ============================================================
-  */
+  /* ============================================================
+     DISPLAY IMAGE PREVIEWS
+     ============================================================ */
 
   function displayPreviews() {
 
@@ -656,10 +638,15 @@
           "preview-item";
 
         item.innerHTML = `
-          <img src="${e.target.result}" alt="Property picture">
+          <img
+            src="${e.target.result}"
+            alt="Property picture"
+          >
+
           <div class="preview-number">
             Picture ${index + 1}
           </div>
+
           <button
             type="button"
             class="remove-image"
@@ -680,11 +667,9 @@
   }
 
 
-  /*
-   ============================================================
-   REMOVE SELECTED IMAGE
-   ============================================================
-  */
+  /* ============================================================
+     REMOVE IMAGE
+     ============================================================ */
 
   function removeImage(index) {
 
@@ -695,19 +680,17 @@
   }
 
 
-  /*
-   ============================================================
-   SAVE PROPERTY
-   ============================================================
-  */
+  /* ============================================================
+     SAVE PROPERTY
+     ============================================================ */
 
   async function saveProperty() {
 
     const title =
       document.getElementById("title").value.trim();
 
-    const address =
-      document.getElementById("address").value.trim();
+    const location =
+      document.getElementById("location").value.trim();
 
     const price =
       document.getElementById("price").value.trim();
@@ -721,6 +704,9 @@
     const description =
       document.getElementById("description").value.trim();
 
+    const contactPhone =
+      document.getElementById("contactPhone").value.trim();
+
     const saveButton =
       document.getElementById("saveButton");
 
@@ -728,18 +714,16 @@
       document.getElementById("uploadStatus");
 
 
-    /*
-     VALIDATION
-    */
-
-    if (!title ||
-        !address ||
-        !price ||
-        !description) {
+    if (
+      !title ||
+      !location ||
+      !price ||
+      !description
+    ) {
 
       showMessage(
         "propertyMessage",
-        "Please fill in the property title, address, price and description.",
+        "Please fill in the title, address, price and description.",
         "error"
       );
 
@@ -767,15 +751,14 @@
 
     try {
 
-      /*
-       ========================================================
-       GET CURRENT USER
-       ========================================================
-      */
+      /* ========================================================
+         CHECK USER
+         ======================================================== */
 
       const {
         data: { user }
-      } = await supabaseClient.auth.getUser();
+      } =
+        await supabaseClient.auth.getUser();
 
 
       if (!user) {
@@ -787,11 +770,9 @@
       }
 
 
-      /*
-       ========================================================
-       UPLOAD ALL PICTURES
-       ========================================================
-      */
+      /* ========================================================
+         UPLOAD IMAGES
+         ======================================================== */
 
       const imageUrls = [];
 
@@ -813,14 +794,11 @@
           "...";
 
 
-        /*
-         Create a unique file name.
-        */
-
         const extension =
           file.name.includes(".")
             ? file.name.split(".").pop()
             : "jpg";
+
 
         const fileName =
           Date.now() +
@@ -834,10 +812,6 @@
           "properties/" +
           fileName;
 
-
-        /*
-         Upload to Supabase Storage.
-        */
 
         const {
           error: uploadError
@@ -861,10 +835,6 @@
 
         }
 
-
-        /*
-         Get public URL.
-        */
 
         const {
           data: publicUrlData
@@ -894,15 +864,18 @@
       }
 
 
-      /*
-       ========================================================
-       SAVE PROPERTY IN DATABASE
-       ========================================================
-      */
+      /* ========================================================
+         SAVE PROPERTY
+         ======================================================== */
 
       status.textContent =
         "Saving property...";
 
+
+      /*
+       Your table has an image_url TEXT column.
+       We store all image URLs together as JSON.
+      */
 
       const {
         error: databaseError
@@ -912,21 +885,27 @@
           .insert([
             {
               title: title,
-              address: address,
+
+              location: location,
+
               price: price,
-              bedrooms: bedrooms
-                ? Number(bedrooms)
-                : null,
-              bathrooms: bathrooms
-                ? Number(bathrooms)
-                : null,
+
+              bedrooms:
+                bedrooms || null,
+
+              bathrooms:
+                bathrooms || null,
+
               description: description,
 
-              /*
-               Store all image URLs.
-              */
+              image_url:
+                JSON.stringify(imageUrls),
 
-              image_urls: imageUrls
+              contact_phone:
+                contactPhone,
+
+              status:
+                "Available"
             }
           ]);
 
@@ -938,11 +917,9 @@
       }
 
 
-      /*
-       ========================================================
-       SUCCESS
-       ========================================================
-      */
+      /* ========================================================
+         SUCCESS
+         ======================================================== */
 
       status.textContent = "";
 
@@ -955,12 +932,10 @@
       );
 
 
-      /*
-       Clear form.
-      */
+      /* Clear form */
 
       document.getElementById("title").value = "";
-      document.getElementById("address").value = "";
+      document.getElementById("location").value = "";
       document.getElementById("price").value = "";
       document.getElementById("bedrooms").value = "";
       document.getElementById("bathrooms").value = "";
@@ -992,11 +967,9 @@
   }
 
 
-  /*
-   ============================================================
-   MESSAGE
-   ============================================================
-  */
+  /* ============================================================
+     MESSAGE
+     ============================================================ */
 
   function showMessage(
     elementId,
@@ -1007,7 +980,8 @@
     const element =
       document.getElementById(elementId);
 
-    element.textContent = message;
+    element.textContent =
+      message;
 
     element.className =
       "message " + type;
@@ -1018,11 +992,9 @@
   }
 
 
-  /*
-   ============================================================
-   START
-   ============================================================
-  */
+  /* ============================================================
+     START
+     ============================================================ */
 
   checkLogin();
 
